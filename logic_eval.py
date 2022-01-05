@@ -1,84 +1,66 @@
 # logic_eval
+import csv
+from pprint import PrettyPrinter
 
-def xor(a, b):
-    return (a or b) and not (a and b)
-
+pp = PrettyPrinter()
 
 class LogicEval:
     symbols = {}
+    BaseDeDados = {}
+    a_csv_file = None
 
     # Design Pattern: Dispatch Table
     operators = {
-        "or": lambda args: args[0] or args[1],
-        "not": lambda args: not args[0],
-        "xor": lambda args: xor(args[0], args[1]),
-        "and": lambda args: args[0] and args[1],
-        "+": lambda args: args[0] + args[1],
-        "-": lambda args: args[0] - args[1],
-        "*": lambda args: args[0] * args[1],
-        "/": lambda args: args[0] / args[1],
-        "attrib": lambda args: LogicEval._attrib(args),
-        "print": lambda args: print(*args),
-        "for": lambda args: LogicEval._for(args)
+        'SAVE': lambda args: LogicEval.savetabela(args),
+        'DISCARD': lambda args: LogicEval.discardTable(args),
+        'LOAD': lambda args: LogicEval.loadTable(args),
+        'SHOW': lambda args: LogicEval.showTable(args)
     }
-
     @staticmethod
-    def _for(args):
-        var, low, hi, code = args
-        if type(low) is not float or type(hi) is not float:
-            raise Exception("For range can't use booleans")
-        iterator = low
-        while iterator <= hi:
-            LogicEval.symbols[var] = iterator
-            LogicEval.evaluate(code)
-            iterator += 1
-        return None
-
-    @staticmethod
-    def _attrib(args):
-        value = args[1]
-        LogicEval.symbols[args[0]] = value
-        ### LogicEval.symbols[args[0]] = { "value": value, "type": ... }
-        # print(LogicEval.symbols)
-        return None
-
-    @staticmethod
-    def evaluate(ast):
-        if type(ast) in (bool, float):
-            return ast
-        if type(ast) is dict:
-            return LogicEval._eval_operator(ast)
-        if type(ast) is str:
-            var = ast
-            if var in LogicEval.symbols:
-                return LogicEval.symbols[ast]
-            raise Exception(f"Undefined variable: {var}")
-        if type(ast) is list:
+    def evaluate(args):
+        if type(args) is list:
             ans = None
-            for a in ast:
+            for a in args:
                 ans = LogicEval.evaluate(a)
-            return ans
+                return ans
 
-        raise Exception("Unknown AST type")
+        if args['args'] in LogicEval.operators:
+            f = LogicEval.operators[args['args']]
+        return f(args)
 
-    @staticmethod
-    def _eval_operator(ast):
 
-        if 'op' in ast:
-            op = ast["op"]
-            # [ {str : "batatas"}, 10 ]
-            args = [LogicEval.evaluate(a) for a in ast['args']]
-            # [ "batatas", 10 ]
-            if "code" in ast:
-                args.append(ast["code"])
-            if op in LogicEval.operators:
-                func = LogicEval.operators[op]
-                return func(args)
-            else:
-                raise Exception(f"Unknown operator {op}")
+    def loadTable(args):
+        nomeTable = args['var']['var']
+        nomeFicheiro = args['var']['fim']['var']['str']
 
-        if 'var' in ast:
-            return ast['var']
+        if nomeTable not in LogicEval.BaseDeDados:
+            LogicEval.a_csv_file = open(nomeFicheiro, "r")
+            LogicEval.BaseDeDados[nomeTable] = csv.DictReader(LogicEval.a_csv_file)
 
-        if 'str' in ast:
-            return ast['str']
+        else:
+            return "Tabela ja existe"
+
+    def showTable(args):
+        nomeTable = args['var']['var']
+
+        if nomeTable in LogicEval.BaseDeDados:
+            for x in LogicEval.BaseDeDados[nomeTable]:
+                print(x)
+
+            LogicEval.a_csv_file.seek(0)
+            next(LogicEval.a_csv_file)
+        else:
+            return "Tabela nao existe"
+
+        return "SHOW " + nomeTable
+
+
+    def savetabela(args):
+        for x in LogicEval.BaseDeDados['produtos']:
+            print(x)
+
+        return "SAVE"
+
+    def discardTable(args):
+        return "DISCARD"
+

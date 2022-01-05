@@ -1,18 +1,4 @@
-LOAD TABLE ola FROM "helllo";
-DISCARD TABLE produtos;
-SAVE TABLE produtos AS "produtos2.csv";
+LOAD TABLE produtos FROM "produtos.csv";
+LOAD TABLE vendas FROM "vendas.csv";
+SHOW TABLE vendas;
 SHOW TABLE produtos;
-SELECT * FROM OP;
-SELECT asdm FROM OP;
-SELECT asdm,a FROM OP;
-SELECT asdm,a FROM OP WHERE qt > 10 AND xo = "por";
-SELECT asdm,a FROM OP WHERE qt > 10 AND xo = "por" LIMIT 30;
-CREATE TABLE mais_vendidos;
-CREATE TABLE mais_vendidos FROM SELECT * FROM vendas WHERE Qt > 50;
-CREATE TABLE tudo FROM vendas JOIN produtos USING(ID = 19);
-PROCEDURE IURI DO
-CREATE TABLE mais_vendidos FROM SELECT * FROM vendas WHERE Qt > 50;
-CREATE TABLE tudo FROM vendas JOIN produtos USING(id = 10);
-END
-SELECT asdm FROM OP;
-CALL IURI;
