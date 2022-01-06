@@ -112,9 +112,9 @@ class LogicGrammar:
                        | var '>' '=' nr rec"""
 
         if len(p)== 5:
-            p[0] = {'var': [p[1], p[3]], 'op': p[2] , 'args': p[4]}
+            p[0] = {'var': p[3],'campo': p[1], 'op': p[2] , 'args': p[4]}
         elif len(p) == 6:
-            p[0] = {'var': [p[1], p[4]], 'op': [p[2],p[3]], 'args': p[5]}
+            p[0] = {'var': p[4], 'op': [p[2],p[3]], 'campo': p[1], 'args': p[5]}
 
     def p_operadores01(self,p):
         """ rec : ';'

@@ -31,7 +31,7 @@ class LogicLexer:
 
     def t_nr(self, t):
         r"[0-9]+(\.[0-9]+)?"
-        t.value = float(t.value)
+        t.value = {"nr": float(t.value)}
         return t
 
     def token(self):

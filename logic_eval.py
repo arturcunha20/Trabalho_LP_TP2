@@ -37,6 +37,7 @@ class LogicEval:
 
         if nomeTable not in LogicEval.BaseDeDados:
             LogicEval.BaseDeDados[nomeTable] = pd.read_csv(nomeFicheiro)
+            float_transform(nomeTable)
         else:
             return "Tabela ja existe"
 
@@ -44,7 +45,6 @@ class LogicEval:
 
     def showTable(args):
         nomeTable = args['var']['var']
-
         if nomeTable in LogicEval.BaseDeDados:
             print(LogicEval.BaseDeDados[nomeTable])
         else:
@@ -57,7 +57,7 @@ class LogicEval:
         nomeFicheiro = args['var']['fim']['var']['str']
 
         if nomeTable in LogicEval.BaseDeDados:
-            pd.DataFrame(LogicEval.BaseDeDados[nomeTable]).to_csv(nomeFicheiro,index=False)
+            pd.DataFrame(LogicEval.BaseDeDados[nomeTable]).to_csv(nomeFicheiro, index=False)
         else:
             print("Table nao existe")
 
@@ -73,4 +73,68 @@ class LogicEval:
         return "DISCARD " + nomeTable
 
     def selectTable(args):
-        print("Entrou no select")
+        campos = args['var']['var']
+        nomeTable = args['var']['args']['var']
+        if nomeTable in LogicEval.BaseDeDados:
+            if args['var']['args']['fim'] == ';':
+                select_prints(campos, nomeTable)
+            else:
+                if args['var']['args']['fim']['var'] == 'WHERE':
+                    op = args['var']['args']['fim']['args']['op']
+                    campo = args['var']['args']['fim']['args']['campo']
+                    var = args['var']['args']['fim']['args']['var']
+
+                    if op == "=":
+                        if 'str' in var:
+                            isTRUE = LogicEval.BaseDeDados[nomeTable][campo] == var['str']
+                            aa = LogicEval.BaseDeDados[nomeTable][isTRUE]
+                            select_prints_where(campos,aa)
+                        if 'nr' in var:
+                            isTRUE = LogicEval.BaseDeDados[nomeTable][campo] == var['nr']
+                            aa = LogicEval.BaseDeDados[nomeTable][isTRUE]
+                            select_prints_where(campos, aa)
+
+                    if op == ">":
+                        isTRUE = LogicEval.BaseDeDados[nomeTable][campo] > var['nr']
+                        aa = LogicEval.BaseDeDados[nomeTable][isTRUE]
+                        select_prints_where(campos, aa)
+
+                    if op == "<":
+                        isTRUE = LogicEval.BaseDeDados[nomeTable][campo] < var['nr']
+                        aa = LogicEval.BaseDeDados[nomeTable][isTRUE]
+                        select_prints_where(campos, aa)
+
+                    if op == ['<','>']:
+                        if 'str' in var:
+                            isTRUE = LogicEval.BaseDeDados[nomeTable][campo] != var['str']
+                            aa = LogicEval.BaseDeDados[nomeTable][isTRUE]
+                            select_prints_where(campos,aa)
+                        if 'nr' in var:
+                            isTRUE = LogicEval.BaseDeDados[nomeTable][campo] != var['nr']
+                            aa = LogicEval.BaseDeDados[nomeTable][isTRUE]
+                            select_prints_where(campos, aa)
+        else:
+           print("Tabela nao existe")
+
+
+def select_prints(campos, nomeTable):
+    tabela = pd.DataFrame(LogicEval.BaseDeDados[nomeTable])
+    if campos == '*':
+        print(LogicEval.BaseDeDados[nomeTable])
+    else:
+        print(tabela[campos])
+
+def select_prints_where(campos,table):
+    if campos == '*':
+        print(table)
+        print(" ")
+    else:
+        print(table[campos])
+        print(" ")
+
+def float_transform(nomeTable):
+    for x in LogicEval.BaseDeDados[nomeTable]:
+        for j in LogicEval.BaseDeDados[nomeTable][x]:
+            check_int = isinstance(j, float)
+            if check_int == True:
+                j = float(j)

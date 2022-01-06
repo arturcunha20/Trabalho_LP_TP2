@@ -28,7 +28,7 @@ else:
     for expr in iter(lambda: input(">> "), ""):
         try:
             ans = lg.parse(expr)
-            #pp.pprint(ans)
+            pp.pprint(ans)
             answer = LogicEval.evaluate(ans)
             if answer is not None:
                 print(f"<< {answer}")
