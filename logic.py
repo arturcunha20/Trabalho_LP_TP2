@@ -12,7 +12,7 @@ with open("t.txt", "r") as file:
     contents = file.read()
     try:
         ans = lg.parse(contents)
-        pp.pprint(ans)
+        #pp.pprint(ans)
         for x in ans:
             answer = LogicEval.evaluate(x)
             if answer is not None:
@@ -28,7 +28,7 @@ else:
     for expr in iter(lambda: input(">> "), ""):
         try:
             ans = lg.parse(expr)
-            pp.pprint(ans)
+            #pp.pprint(ans)
             answer = LogicEval.evaluate(ans)
             if answer is not None:
                 print(f"<< {answer}")

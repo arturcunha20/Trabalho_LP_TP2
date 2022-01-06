@@ -1,4 +1,4 @@
 LOAD TABLE produtos FROM "produtos.csv";
 LOAD TABLE vendas FROM "vendas.csv";
-SHOW TABLE vendas;
 SHOW TABLE produtos;
+SHOW TABLE vendas;

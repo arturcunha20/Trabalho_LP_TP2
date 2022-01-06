@@ -1,6 +1,7 @@
 # logic_eval
 import csv
 from pprint import PrettyPrinter
+import pandas as pd
 
 pp = PrettyPrinter()
 
@@ -14,7 +15,8 @@ class LogicEval:
         'SAVE': lambda args: LogicEval.savetabela(args),
         'DISCARD': lambda args: LogicEval.discardTable(args),
         'LOAD': lambda args: LogicEval.loadTable(args),
-        'SHOW': lambda args: LogicEval.showTable(args)
+        'SHOW': lambda args: LogicEval.showTable(args),
+        'SELECT': lambda args: LogicEval.selectTable(args),
     }
     @staticmethod
     def evaluate(args):
@@ -26,7 +28,7 @@ class LogicEval:
 
         if args['args'] in LogicEval.operators:
             f = LogicEval.operators[args['args']]
-        return f(args)
+            return f(args)
 
 
     def loadTable(args):
@@ -34,33 +36,41 @@ class LogicEval:
         nomeFicheiro = args['var']['fim']['var']['str']
 
         if nomeTable not in LogicEval.BaseDeDados:
-            LogicEval.a_csv_file = open(nomeFicheiro, "r")
-            LogicEval.BaseDeDados[nomeTable] = csv.DictReader(LogicEval.a_csv_file)
-
+            LogicEval.BaseDeDados[nomeTable] = pd.read_csv(nomeFicheiro)
         else:
             return "Tabela ja existe"
+
+        return "LOAD " + nomeTable
 
     def showTable(args):
         nomeTable = args['var']['var']
 
         if nomeTable in LogicEval.BaseDeDados:
-            for x in LogicEval.BaseDeDados[nomeTable]:
-                print(x)
-
-            LogicEval.a_csv_file.seek(0)
-            next(LogicEval.a_csv_file)
+            print(LogicEval.BaseDeDados[nomeTable])
         else:
-            return "Tabela nao existe"
+            print("Tabela nao existe")
 
         return "SHOW " + nomeTable
 
-
     def savetabela(args):
-        for x in LogicEval.BaseDeDados['produtos']:
-            print(x)
+        nomeTable = args['var']['var']
+        nomeFicheiro = args['var']['fim']['var']['str']
 
-        return "SAVE"
+        if nomeTable in LogicEval.BaseDeDados:
+            pd.DataFrame(LogicEval.BaseDeDados[nomeTable]).to_csv(nomeFicheiro,index=False)
+        else:
+            print("Table nao existe")
+
+        return "SAVE " + nomeTable
 
     def discardTable(args):
-        return "DISCARD"
+        nomeTable = args['var']['var']
 
+        if nomeTable in LogicEval.BaseDeDados:
+            LogicEval.BaseDeDados.pop(nomeTable)
+        else:
+           print("Tabela nao existe")
+        return "DISCARD " + nomeTable
+
+    def selectTable(args):
+        print("Entrou no select")
