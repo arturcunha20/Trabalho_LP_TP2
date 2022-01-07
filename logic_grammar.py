@@ -81,12 +81,17 @@ class LogicGrammar:
                  | FROM var where
                  | FROM comands
                  | FROM var join
-                 | FROM string ';' """
+                 | FROM string ';'
+                 | FROM var limit """
 
         if len(p) == 3:
             p[0] = {'var': p[2], 'args': p[1]}
         else:
             p[0] = {'var': p[2], 'args': p[1], 'fim': p[3]}
+
+    def p_limit(self,p):
+        """ limit : LIMIT nr ';' """
+        p[0] = {'var': p[2],'fim': p[3],'args': p[1]}
 
     def p_join(self,p):
         """ join : JOIN var using"""
@@ -119,7 +124,7 @@ class LogicGrammar:
     def p_operadores01(self,p):
         """ rec : ';'
                 | AND operadores
-                | LIMIT nr ';' """
+                | limit """
 
         if len(p) == 2:
             p[0] = p[1]

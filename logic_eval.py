@@ -79,6 +79,11 @@ class LogicEval:
             if args['var']['args']['fim'] == ';':
                 select_prints(campos, nomeTable)
             else:
+                if verificarLIMIT(args) == True:
+                    table = print_limit(campos,LogicEval.BaseDeDados[nomeTable])
+                    ff = pd.DataFrame(table)
+                    print(ff.head(int(args['var']['args']['fim']['var']['nr'])))
+
                 if args['var']['args']['fim']['var'] == 'WHERE':
                     op = args['var']['args']['fim']['args']['op']
                     campo = args['var']['args']['fim']['args']['campo']
@@ -88,33 +93,51 @@ class LogicEval:
                         if 'str' in var:
                             isTRUE = LogicEval.BaseDeDados[nomeTable][campo] == var['str']
                             aa = LogicEval.BaseDeDados[nomeTable][isTRUE]
-                            select_prints_where(campos,aa)
+                            bb = args['var']['args']['fim']
+                            limit_where_prints(bb, campos, aa, nomeTable)
+
                         if 'nr' in var:
                             isTRUE = LogicEval.BaseDeDados[nomeTable][campo] == var['nr']
                             aa = LogicEval.BaseDeDados[nomeTable][isTRUE]
-                            select_prints_where(campos, aa)
+                            bb = args['var']['args']['fim']
+                            limit_where_prints(bb, campos, aa, nomeTable)
 
                     if op == ">":
                         isTRUE = LogicEval.BaseDeDados[nomeTable][campo] > var['nr']
                         aa = LogicEval.BaseDeDados[nomeTable][isTRUE]
-                        select_prints_where(campos, aa)
+                        bb = args['var']['args']['fim']
+                        limit_where_prints(bb, campos, aa, nomeTable)
 
                     if op == "<":
                         isTRUE = LogicEval.BaseDeDados[nomeTable][campo] < var['nr']
                         aa = LogicEval.BaseDeDados[nomeTable][isTRUE]
-                        select_prints_where(campos, aa)
+                        bb = args['var']['args']['fim']
+                        limit_where_prints(bb, campos, aa, nomeTable)
 
                     if op == ['<','>']:
                         if 'str' in var:
                             isTRUE = LogicEval.BaseDeDados[nomeTable][campo] != var['str']
                             aa = LogicEval.BaseDeDados[nomeTable][isTRUE]
-                            select_prints_where(campos,aa)
+                            bb = args['var']['args']['fim']
+                            limit_where_prints(bb, campos, aa, nomeTable)
                         if 'nr' in var:
                             isTRUE = LogicEval.BaseDeDados[nomeTable][campo] != var['nr']
                             aa = LogicEval.BaseDeDados[nomeTable][isTRUE]
-                            select_prints_where(campos, aa)
+                            bb = args['var']['args']['fim']
+                            limit_where_prints(bb, campos, aa, nomeTable)
         else:
            print("Tabela nao existe")
+
+
+def verificarLIMITWHERE(args):
+    if args['args']['args']['args'] == "LIMIT":
+        return True
+
+def verificarLIMIT(args):
+    if args['var']['args']['fim']['args'] == "LIMIT":
+        return True
+    else:
+        return False
 
 
 def select_prints(campos, nomeTable):
@@ -132,9 +155,23 @@ def select_prints_where(campos,table):
         print(table[campos])
         print(" ")
 
+def print_limit(campos,table):
+    if campos == '*':
+        return (table)
+    else:
+        return (table[campos])
+
 def float_transform(nomeTable):
     for x in LogicEval.BaseDeDados[nomeTable]:
         for j in LogicEval.BaseDeDados[nomeTable][x]:
             check_int = isinstance(j, float)
             if check_int == True:
                 j = float(j)
+
+def limit_where_prints(bb,campos,aa,nomeTable):
+    if bb['args']['args'] == ";":
+        select_prints_where(campos, aa)
+    elif verificarLIMITWHERE(bb) == True:
+        table = print_limit(campos, aa)
+        ff = pd.DataFrame(table)
+        print(ff.head(int(bb['args']['args']['var']['nr'])))

@@ -2,7 +2,7 @@
 import ply.lex as plex
 
 class LogicLexer:
-    tokens = ("var", "nr", "string", "LOAD", "TABLE", "FROM", "AS", "DISCARD","SAVE","SHOW","SELECT","WHERE","AND","LIMIT","CREATE","JOIN","USING","PROCEDURE","DO","END","CALL")
+    tokens = ("var", "nr", "string", "LOAD", "TABLE", "FROM", "AS", "DISCARD", "SAVE", "SHOW", "SELECT", "WHERE", "AND", "LIMIT", "CREATE", "JOIN", "USING", "PROCEDURE", "DO", "END", "CALL")
     literals = ['(', ')', '=', '+', '-', '*', '/', '[', ']', '{', '}', ',', ';','<','>']
     t_ignore = " \n"
 
