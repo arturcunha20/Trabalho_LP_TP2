@@ -1,4 +1,4 @@
 LOAD TABLE produtos FROM "produtos.csv";
 LOAD TABLE vendas FROM "vendas.csv";
 
-SELECT ID,Preco FROM produtos WHERE Preco = 1.5 LIMIT 3;
+SELECT * FROM vendas;

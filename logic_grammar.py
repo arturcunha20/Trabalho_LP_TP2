@@ -36,12 +36,12 @@ class LogicGrammar:
         p[0] = p[1]
 
     def p_comands(self,p):
-        """ comands : DISCARD table
-                    | LOAD table
-                    | SAVE table
+        """ comands : LOAD table
+                    | DISCARD table
                     | SHOW table
+                    | SAVE table
                     | SELECT select
-                    | CREATE table"""
+                    | CREATE table """
         p[0] = {'var': p[2], 'args': p[1]}
 
     def p_table(self,p):

@@ -1,5 +1,4 @@
 # logic_eval
-import csv
 from pprint import PrettyPrinter
 import pandas as pd
 
@@ -8,7 +7,6 @@ pp = PrettyPrinter()
 class LogicEval:
     symbols = {}
     BaseDeDados = {}
-    a_csv_file = None
 
     # Design Pattern: Dispatch Table
     operators = {
@@ -94,37 +92,50 @@ class LogicEval:
                             isTRUE = LogicEval.BaseDeDados[nomeTable][campo] == var['str']
                             aa = LogicEval.BaseDeDados[nomeTable][isTRUE]
                             bb = args['var']['args']['fim']
-                            limit_where_prints(bb, campos, aa, nomeTable)
+                            limit_where_prints(bb, campos, aa)
 
                         if 'nr' in var:
                             isTRUE = LogicEval.BaseDeDados[nomeTable][campo] == var['nr']
                             aa = LogicEval.BaseDeDados[nomeTable][isTRUE]
                             bb = args['var']['args']['fim']
-                            limit_where_prints(bb, campos, aa, nomeTable)
+                            limit_where_prints(bb, campos, aa)
 
                     if op == ">":
                         isTRUE = LogicEval.BaseDeDados[nomeTable][campo] > var['nr']
                         aa = LogicEval.BaseDeDados[nomeTable][isTRUE]
                         bb = args['var']['args']['fim']
-                        limit_where_prints(bb, campos, aa, nomeTable)
+                        limit_where_prints(bb, campos, aa)
 
                     if op == "<":
                         isTRUE = LogicEval.BaseDeDados[nomeTable][campo] < var['nr']
                         aa = LogicEval.BaseDeDados[nomeTable][isTRUE]
                         bb = args['var']['args']['fim']
-                        limit_where_prints(bb, campos, aa, nomeTable)
+                        limit_where_prints(bb, campos, aa)
 
                     if op == ['<','>']:
                         if 'str' in var:
                             isTRUE = LogicEval.BaseDeDados[nomeTable][campo] != var['str']
                             aa = LogicEval.BaseDeDados[nomeTable][isTRUE]
                             bb = args['var']['args']['fim']
-                            limit_where_prints(bb, campos, aa, nomeTable)
+                            limit_where_prints(bb, campos, aa)
                         if 'nr' in var:
                             isTRUE = LogicEval.BaseDeDados[nomeTable][campo] != var['nr']
+                            print(isTRUE)
                             aa = LogicEval.BaseDeDados[nomeTable][isTRUE]
                             bb = args['var']['args']['fim']
-                            limit_where_prints(bb, campos, aa, nomeTable)
+                            limit_where_prints(bb, campos, aa)
+
+                    if op == ['<','=']:
+                        isTRUE = LogicEval.BaseDeDados[nomeTable][campo] <= var['nr']
+                        aa = LogicEval.BaseDeDados[nomeTable][isTRUE]
+                        bb = args['var']['args']['fim']
+                        limit_where_prints(bb, campos, aa)
+
+                    if op == ['>','=']:
+                        isTRUE = LogicEval.BaseDeDados[nomeTable][campo] >= var['nr']
+                        aa = LogicEval.BaseDeDados[nomeTable][isTRUE]
+                        bb = args['var']['args']['fim']
+                        limit_where_prints(bb, campos, aa)
         else:
            print("Tabela nao existe")
 
@@ -168,7 +179,7 @@ def float_transform(nomeTable):
             if check_int == True:
                 j = float(j)
 
-def limit_where_prints(bb,campos,aa,nomeTable):
+def limit_where_prints(bb,campos,aa):
     if bb['args']['args'] == ";":
         select_prints_where(campos, aa)
     elif verificarLIMITWHERE(bb) == True:
