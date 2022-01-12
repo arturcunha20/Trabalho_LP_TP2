@@ -19,14 +19,13 @@ class LogicGrammar:
         return self.yacc.parse(lexer=self.lexer.lexer)
 
     def p_varias00(self,p):
-        """ vars : S"""
+        """ vars : S """
         p[0] = [p[1]]
 
     def p_varias01(self, p):
         """ vars : vars S"""
         p[0] = p[1]
         p[0].append(p[2])
-
 
     def p_S(self,p):
         """ S : comands
