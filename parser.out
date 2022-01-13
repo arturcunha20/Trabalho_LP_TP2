@@ -32,57 +32,56 @@ Rule 26    from -> FROM string ;
 Rule 27    from -> FROM var limit
 Rule 28    limit -> LIMIT nr ;
 Rule 29    join -> JOIN var using
-Rule 30    using -> USING ( var = nr ) ;
-Rule 31    using -> USING ( var = string ) ;
-Rule 32    where -> WHERE operadores
-Rule 33    operadores -> var = nr rec
-Rule 34    operadores -> var = string rec
-Rule 35    operadores -> var < > nr rec
-Rule 36    operadores -> var < > string rec
-Rule 37    operadores -> var < nr rec
-Rule 38    operadores -> var > nr rec
-Rule 39    operadores -> var < = nr rec
-Rule 40    operadores -> var > = nr rec
-Rule 41    rec -> ;
-Rule 42    rec -> AND operadores
-Rule 43    rec -> limit
-Rule 44    procedimentos -> PROCEDURE var DO list_com END
-Rule 45    list_com -> comands
-Rule 46    list_com -> list_com comands
-Rule 47    call_procedimentos -> CALL var ;
+Rule 30    using -> USING ( var ) ;
+Rule 31    where -> WHERE operadores
+Rule 32    operadores -> var = nr rec
+Rule 33    operadores -> var = string rec
+Rule 34    operadores -> var < > nr rec
+Rule 35    operadores -> var < > string rec
+Rule 36    operadores -> var < nr rec
+Rule 37    operadores -> var > nr rec
+Rule 38    operadores -> var < = nr rec
+Rule 39    operadores -> var > = nr rec
+Rule 40    rec -> ;
+Rule 41    rec -> AND operadores
+Rule 42    rec -> limit
+Rule 43    procedimentos -> PROCEDURE var DO list_com END
+Rule 44    list_com -> comands
+Rule 45    list_com -> list_com comands
+Rule 46    call_procedimentos -> CALL var ;
 
 Terminals, with rules where they appear
 
-(                    : 30 31
-)                    : 30 31
+(                    : 30
+)                    : 30
 *                    : 16
 ,                    : 19
-;                    : 13 20 22 26 28 30 31 41 47
-<                    : 35 36 37 39
-=                    : 30 31 33 34 39 40
->                    : 35 36 38 40
-AND                  : 42
+;                    : 13 20 22 26 28 30 40 46
+<                    : 34 35 36 38
+=                    : 32 33 38 39
+>                    : 34 35 37 39
+AND                  : 41
 AS                   : 20
-CALL                 : 47
+CALL                 : 46
 CREATE               : 12
 DISCARD              : 8
-DO                   : 44
-END                  : 44
+DO                   : 43
+END                  : 43
 FROM                 : 22 23 24 25 26 27
 JOIN                 : 29
 LIMIT                : 28
 LOAD                 : 7
-PROCEDURE            : 44
+PROCEDURE            : 43
 SAVE                 : 10
 SELECT               : 11
 SHOW                 : 9
 TABLE                : 13 14 15
-USING                : 30 31
-WHERE                : 32
+USING                : 30
+WHERE                : 31
 error                : 
-nr                   : 28 30 33 35 37 38 39 40
-string               : 20 26 31 34 36
-var                  : 13 14 15 18 19 21 22 23 25 27 29 30 31 33 34 35 36 37 38 39 40 44 47
+nr                   : 28 32 34 36 37 38 39
+string               : 20 26 33 35
+var                  : 13 14 15 18 19 21 22 23 25 27 29 30 32 33 34 35 36 37 38 39 43 46
 
 Nonterminals, with rules where they appear
 
@@ -90,14 +89,14 @@ S                    : 1 2
 a_list               : 17 19
 as                   : 15
 call_procedimentos   : 6
-comands              : 3 24 45 46
+comands              : 3 24 44 45
 from                 : 14 16 17
 join                 : 25
-limit                : 27 43
-list_com             : 44 46
-operadores           : 32 42
+limit                : 27 42
+list_com             : 43 45
+operadores           : 31 41
 procedimentos        : 4
-rec                  : 33 34 35 36 37 38 39 40
+rec                  : 32 33 34 35 36 37 38 39
 select               : 11
 table                : 7 8 9 10 12
 using                : 29
@@ -122,9 +121,9 @@ state 0
     (10) comands -> . SAVE table
     (11) comands -> . SELECT select
     (12) comands -> . CREATE table
-    (44) procedimentos -> . PROCEDURE var DO list_com END
+    (43) procedimentos -> . PROCEDURE var DO list_com END
     (21) v -> . var
-    (47) call_procedimentos -> . CALL var ;
+    (46) call_procedimentos -> . CALL var ;
 
     LOAD            shift and go to state 7
     DISCARD         shift and go to state 8
@@ -157,9 +156,9 @@ state 1
     (10) comands -> . SAVE table
     (11) comands -> . SELECT select
     (12) comands -> . CREATE table
-    (44) procedimentos -> . PROCEDURE var DO list_com END
+    (43) procedimentos -> . PROCEDURE var DO list_com END
     (21) v -> . var
-    (47) call_procedimentos -> . CALL var ;
+    (46) call_procedimentos -> . CALL var ;
 
     LOAD            shift and go to state 7
     DISCARD         shift and go to state 8
@@ -328,7 +327,7 @@ state 12
 
 state 13
 
-    (44) procedimentos -> PROCEDURE . var DO list_com END
+    (43) procedimentos -> PROCEDURE . var DO list_com END
 
     var             shift and go to state 27
 
@@ -351,7 +350,7 @@ state 14
 
 state 15
 
-    (47) call_procedimentos -> CALL . var ;
+    (46) call_procedimentos -> CALL . var ;
 
     var             shift and go to state 28
 
@@ -523,14 +522,14 @@ state 26
 
 state 27
 
-    (44) procedimentos -> PROCEDURE var . DO list_com END
+    (43) procedimentos -> PROCEDURE var . DO list_com END
 
     DO              shift and go to state 34
 
 
 state 28
 
-    (47) call_procedimentos -> CALL var . ;
+    (46) call_procedimentos -> CALL var . ;
 
     ;               shift and go to state 35
 
@@ -624,9 +623,9 @@ state 33
 
 state 34
 
-    (44) procedimentos -> PROCEDURE var DO . list_com END
-    (45) list_com -> . comands
-    (46) list_com -> . list_com comands
+    (43) procedimentos -> PROCEDURE var DO . list_com END
+    (44) list_com -> . comands
+    (45) list_com -> . list_com comands
     (7) comands -> . LOAD table
     (8) comands -> . DISCARD table
     (9) comands -> . SHOW table
@@ -646,18 +645,18 @@ state 34
 
 state 35
 
-    (47) call_procedimentos -> CALL var ; .
+    (46) call_procedimentos -> CALL var ; .
 
-    LOAD            reduce using rule 47 (call_procedimentos -> CALL var ; .)
-    DISCARD         reduce using rule 47 (call_procedimentos -> CALL var ; .)
-    SHOW            reduce using rule 47 (call_procedimentos -> CALL var ; .)
-    SAVE            reduce using rule 47 (call_procedimentos -> CALL var ; .)
-    SELECT          reduce using rule 47 (call_procedimentos -> CALL var ; .)
-    CREATE          reduce using rule 47 (call_procedimentos -> CALL var ; .)
-    PROCEDURE       reduce using rule 47 (call_procedimentos -> CALL var ; .)
-    var             reduce using rule 47 (call_procedimentos -> CALL var ; .)
-    CALL            reduce using rule 47 (call_procedimentos -> CALL var ; .)
-    $end            reduce using rule 47 (call_procedimentos -> CALL var ; .)
+    LOAD            reduce using rule 46 (call_procedimentos -> CALL var ; .)
+    DISCARD         reduce using rule 46 (call_procedimentos -> CALL var ; .)
+    SHOW            reduce using rule 46 (call_procedimentos -> CALL var ; .)
+    SAVE            reduce using rule 46 (call_procedimentos -> CALL var ; .)
+    SELECT          reduce using rule 46 (call_procedimentos -> CALL var ; .)
+    CREATE          reduce using rule 46 (call_procedimentos -> CALL var ; .)
+    PROCEDURE       reduce using rule 46 (call_procedimentos -> CALL var ; .)
+    var             reduce using rule 46 (call_procedimentos -> CALL var ; .)
+    CALL            reduce using rule 46 (call_procedimentos -> CALL var ; .)
+    $end            reduce using rule 46 (call_procedimentos -> CALL var ; .)
 
 
 state 36
@@ -724,7 +723,7 @@ state 40
     (23) from -> FROM var . where
     (25) from -> FROM var . join
     (27) from -> FROM var . limit
-    (32) where -> . WHERE operadores
+    (31) where -> . WHERE operadores
     (29) join -> . JOIN var using
     (28) limit -> . LIMIT nr ;
 
@@ -771,8 +770,8 @@ state 43
 
 state 44
 
-    (44) procedimentos -> PROCEDURE var DO list_com . END
-    (46) list_com -> list_com . comands
+    (43) procedimentos -> PROCEDURE var DO list_com . END
+    (45) list_com -> list_com . comands
     (7) comands -> . LOAD table
     (8) comands -> . DISCARD table
     (9) comands -> . SHOW table
@@ -792,15 +791,15 @@ state 44
 
 state 45
 
-    (45) list_com -> comands .
+    (44) list_com -> comands .
 
-    END             reduce using rule 45 (list_com -> comands .)
-    LOAD            reduce using rule 45 (list_com -> comands .)
-    DISCARD         reduce using rule 45 (list_com -> comands .)
-    SHOW            reduce using rule 45 (list_com -> comands .)
-    SAVE            reduce using rule 45 (list_com -> comands .)
-    SELECT          reduce using rule 45 (list_com -> comands .)
-    CREATE          reduce using rule 45 (list_com -> comands .)
+    END             reduce using rule 44 (list_com -> comands .)
+    LOAD            reduce using rule 44 (list_com -> comands .)
+    DISCARD         reduce using rule 44 (list_com -> comands .)
+    SHOW            reduce using rule 44 (list_com -> comands .)
+    SAVE            reduce using rule 44 (list_com -> comands .)
+    SELECT          reduce using rule 44 (list_com -> comands .)
+    CREATE          reduce using rule 44 (list_com -> comands .)
 
 
 state 46
@@ -880,15 +879,15 @@ state 50
 
 state 51
 
-    (32) where -> WHERE . operadores
-    (33) operadores -> . var = nr rec
-    (34) operadores -> . var = string rec
-    (35) operadores -> . var < > nr rec
-    (36) operadores -> . var < > string rec
-    (37) operadores -> . var < nr rec
-    (38) operadores -> . var > nr rec
-    (39) operadores -> . var < = nr rec
-    (40) operadores -> . var > = nr rec
+    (31) where -> WHERE . operadores
+    (32) operadores -> . var = nr rec
+    (33) operadores -> . var = string rec
+    (34) operadores -> . var < > nr rec
+    (35) operadores -> . var < > string rec
+    (36) operadores -> . var < nr rec
+    (37) operadores -> . var > nr rec
+    (38) operadores -> . var < = nr rec
+    (39) operadores -> . var > = nr rec
 
     var             shift and go to state 59
 
@@ -927,31 +926,31 @@ state 54
 
 state 55
 
-    (44) procedimentos -> PROCEDURE var DO list_com END .
+    (43) procedimentos -> PROCEDURE var DO list_com END .
 
-    LOAD            reduce using rule 44 (procedimentos -> PROCEDURE var DO list_com END .)
-    DISCARD         reduce using rule 44 (procedimentos -> PROCEDURE var DO list_com END .)
-    SHOW            reduce using rule 44 (procedimentos -> PROCEDURE var DO list_com END .)
-    SAVE            reduce using rule 44 (procedimentos -> PROCEDURE var DO list_com END .)
-    SELECT          reduce using rule 44 (procedimentos -> PROCEDURE var DO list_com END .)
-    CREATE          reduce using rule 44 (procedimentos -> PROCEDURE var DO list_com END .)
-    PROCEDURE       reduce using rule 44 (procedimentos -> PROCEDURE var DO list_com END .)
-    var             reduce using rule 44 (procedimentos -> PROCEDURE var DO list_com END .)
-    CALL            reduce using rule 44 (procedimentos -> PROCEDURE var DO list_com END .)
-    $end            reduce using rule 44 (procedimentos -> PROCEDURE var DO list_com END .)
+    LOAD            reduce using rule 43 (procedimentos -> PROCEDURE var DO list_com END .)
+    DISCARD         reduce using rule 43 (procedimentos -> PROCEDURE var DO list_com END .)
+    SHOW            reduce using rule 43 (procedimentos -> PROCEDURE var DO list_com END .)
+    SAVE            reduce using rule 43 (procedimentos -> PROCEDURE var DO list_com END .)
+    SELECT          reduce using rule 43 (procedimentos -> PROCEDURE var DO list_com END .)
+    CREATE          reduce using rule 43 (procedimentos -> PROCEDURE var DO list_com END .)
+    PROCEDURE       reduce using rule 43 (procedimentos -> PROCEDURE var DO list_com END .)
+    var             reduce using rule 43 (procedimentos -> PROCEDURE var DO list_com END .)
+    CALL            reduce using rule 43 (procedimentos -> PROCEDURE var DO list_com END .)
+    $end            reduce using rule 43 (procedimentos -> PROCEDURE var DO list_com END .)
 
 
 state 56
 
-    (46) list_com -> list_com comands .
+    (45) list_com -> list_com comands .
 
-    END             reduce using rule 46 (list_com -> list_com comands .)
-    LOAD            reduce using rule 46 (list_com -> list_com comands .)
-    DISCARD         reduce using rule 46 (list_com -> list_com comands .)
-    SHOW            reduce using rule 46 (list_com -> list_com comands .)
-    SAVE            reduce using rule 46 (list_com -> list_com comands .)
-    SELECT          reduce using rule 46 (list_com -> list_com comands .)
-    CREATE          reduce using rule 46 (list_com -> list_com comands .)
+    END             reduce using rule 45 (list_com -> list_com comands .)
+    LOAD            reduce using rule 45 (list_com -> list_com comands .)
+    DISCARD         reduce using rule 45 (list_com -> list_com comands .)
+    SHOW            reduce using rule 45 (list_com -> list_com comands .)
+    SAVE            reduce using rule 45 (list_com -> list_com comands .)
+    SELECT          reduce using rule 45 (list_com -> list_com comands .)
+    CREATE          reduce using rule 45 (list_com -> list_com comands .)
 
 
 state 57
@@ -973,31 +972,31 @@ state 57
 
 state 58
 
-    (32) where -> WHERE operadores .
+    (31) where -> WHERE operadores .
 
-    LOAD            reduce using rule 32 (where -> WHERE operadores .)
-    DISCARD         reduce using rule 32 (where -> WHERE operadores .)
-    SHOW            reduce using rule 32 (where -> WHERE operadores .)
-    SAVE            reduce using rule 32 (where -> WHERE operadores .)
-    SELECT          reduce using rule 32 (where -> WHERE operadores .)
-    CREATE          reduce using rule 32 (where -> WHERE operadores .)
-    PROCEDURE       reduce using rule 32 (where -> WHERE operadores .)
-    var             reduce using rule 32 (where -> WHERE operadores .)
-    CALL            reduce using rule 32 (where -> WHERE operadores .)
-    $end            reduce using rule 32 (where -> WHERE operadores .)
-    END             reduce using rule 32 (where -> WHERE operadores .)
+    LOAD            reduce using rule 31 (where -> WHERE operadores .)
+    DISCARD         reduce using rule 31 (where -> WHERE operadores .)
+    SHOW            reduce using rule 31 (where -> WHERE operadores .)
+    SAVE            reduce using rule 31 (where -> WHERE operadores .)
+    SELECT          reduce using rule 31 (where -> WHERE operadores .)
+    CREATE          reduce using rule 31 (where -> WHERE operadores .)
+    PROCEDURE       reduce using rule 31 (where -> WHERE operadores .)
+    var             reduce using rule 31 (where -> WHERE operadores .)
+    CALL            reduce using rule 31 (where -> WHERE operadores .)
+    $end            reduce using rule 31 (where -> WHERE operadores .)
+    END             reduce using rule 31 (where -> WHERE operadores .)
 
 
 state 59
 
-    (33) operadores -> var . = nr rec
-    (34) operadores -> var . = string rec
-    (35) operadores -> var . < > nr rec
-    (36) operadores -> var . < > string rec
-    (37) operadores -> var . < nr rec
-    (38) operadores -> var . > nr rec
-    (39) operadores -> var . < = nr rec
-    (40) operadores -> var . > = nr rec
+    (32) operadores -> var . = nr rec
+    (33) operadores -> var . = string rec
+    (34) operadores -> var . < > nr rec
+    (35) operadores -> var . < > string rec
+    (36) operadores -> var . < nr rec
+    (37) operadores -> var . > nr rec
+    (38) operadores -> var . < = nr rec
+    (39) operadores -> var . > = nr rec
 
     =               shift and go to state 62
     <               shift and go to state 63
@@ -1007,8 +1006,7 @@ state 59
 state 60
 
     (29) join -> JOIN var . using
-    (30) using -> . USING ( var = nr ) ;
-    (31) using -> . USING ( var = string ) ;
+    (30) using -> . USING ( var ) ;
 
     USING           shift and go to state 66
 
@@ -1023,8 +1021,8 @@ state 61
 
 state 62
 
-    (33) operadores -> var = . nr rec
-    (34) operadores -> var = . string rec
+    (32) operadores -> var = . nr rec
+    (33) operadores -> var = . string rec
 
     nr              shift and go to state 68
     string          shift and go to state 69
@@ -1032,10 +1030,10 @@ state 62
 
 state 63
 
-    (35) operadores -> var < . > nr rec
-    (36) operadores -> var < . > string rec
-    (37) operadores -> var < . nr rec
-    (39) operadores -> var < . = nr rec
+    (34) operadores -> var < . > nr rec
+    (35) operadores -> var < . > string rec
+    (36) operadores -> var < . nr rec
+    (38) operadores -> var < . = nr rec
 
     >               shift and go to state 70
     nr              shift and go to state 71
@@ -1044,8 +1042,8 @@ state 63
 
 state 64
 
-    (38) operadores -> var > . nr rec
-    (40) operadores -> var > . = nr rec
+    (37) operadores -> var > . nr rec
+    (39) operadores -> var > . = nr rec
 
     nr              shift and go to state 73
     =               shift and go to state 74
@@ -1070,8 +1068,7 @@ state 65
 
 state 66
 
-    (30) using -> USING . ( var = nr ) ;
-    (31) using -> USING . ( var = string ) ;
+    (30) using -> USING . ( var ) ;
 
     (               shift and go to state 75
 
@@ -1095,10 +1092,10 @@ state 67
 
 state 68
 
-    (33) operadores -> var = nr . rec
-    (41) rec -> . ;
-    (42) rec -> . AND operadores
-    (43) rec -> . limit
+    (32) operadores -> var = nr . rec
+    (40) rec -> . ;
+    (41) rec -> . AND operadores
+    (42) rec -> . limit
     (28) limit -> . LIMIT nr ;
 
     ;               shift and go to state 77
@@ -1110,10 +1107,10 @@ state 68
 
 state 69
 
-    (34) operadores -> var = string . rec
-    (41) rec -> . ;
-    (42) rec -> . AND operadores
-    (43) rec -> . limit
+    (33) operadores -> var = string . rec
+    (40) rec -> . ;
+    (41) rec -> . AND operadores
+    (42) rec -> . limit
     (28) limit -> . LIMIT nr ;
 
     ;               shift and go to state 77
@@ -1125,8 +1122,8 @@ state 69
 
 state 70
 
-    (35) operadores -> var < > . nr rec
-    (36) operadores -> var < > . string rec
+    (34) operadores -> var < > . nr rec
+    (35) operadores -> var < > . string rec
 
     nr              shift and go to state 81
     string          shift and go to state 82
@@ -1134,10 +1131,10 @@ state 70
 
 state 71
 
-    (37) operadores -> var < nr . rec
-    (41) rec -> . ;
-    (42) rec -> . AND operadores
-    (43) rec -> . limit
+    (36) operadores -> var < nr . rec
+    (40) rec -> . ;
+    (41) rec -> . AND operadores
+    (42) rec -> . limit
     (28) limit -> . LIMIT nr ;
 
     ;               shift and go to state 77
@@ -1149,17 +1146,17 @@ state 71
 
 state 72
 
-    (39) operadores -> var < = . nr rec
+    (38) operadores -> var < = . nr rec
 
     nr              shift and go to state 84
 
 
 state 73
 
-    (38) operadores -> var > nr . rec
-    (41) rec -> . ;
-    (42) rec -> . AND operadores
-    (43) rec -> . limit
+    (37) operadores -> var > nr . rec
+    (40) rec -> . ;
+    (41) rec -> . AND operadores
+    (42) rec -> . limit
     (28) limit -> . LIMIT nr ;
 
     ;               shift and go to state 77
@@ -1171,64 +1168,63 @@ state 73
 
 state 74
 
-    (40) operadores -> var > = . nr rec
+    (39) operadores -> var > = . nr rec
 
     nr              shift and go to state 86
 
 
 state 75
 
-    (30) using -> USING ( . var = nr ) ;
-    (31) using -> USING ( . var = string ) ;
+    (30) using -> USING ( . var ) ;
 
     var             shift and go to state 87
 
 
 state 76
 
-    (33) operadores -> var = nr rec .
+    (32) operadores -> var = nr rec .
 
-    LOAD            reduce using rule 33 (operadores -> var = nr rec .)
-    DISCARD         reduce using rule 33 (operadores -> var = nr rec .)
-    SHOW            reduce using rule 33 (operadores -> var = nr rec .)
-    SAVE            reduce using rule 33 (operadores -> var = nr rec .)
-    SELECT          reduce using rule 33 (operadores -> var = nr rec .)
-    CREATE          reduce using rule 33 (operadores -> var = nr rec .)
-    PROCEDURE       reduce using rule 33 (operadores -> var = nr rec .)
-    var             reduce using rule 33 (operadores -> var = nr rec .)
-    CALL            reduce using rule 33 (operadores -> var = nr rec .)
-    $end            reduce using rule 33 (operadores -> var = nr rec .)
-    END             reduce using rule 33 (operadores -> var = nr rec .)
+    LOAD            reduce using rule 32 (operadores -> var = nr rec .)
+    DISCARD         reduce using rule 32 (operadores -> var = nr rec .)
+    SHOW            reduce using rule 32 (operadores -> var = nr rec .)
+    SAVE            reduce using rule 32 (operadores -> var = nr rec .)
+    SELECT          reduce using rule 32 (operadores -> var = nr rec .)
+    CREATE          reduce using rule 32 (operadores -> var = nr rec .)
+    PROCEDURE       reduce using rule 32 (operadores -> var = nr rec .)
+    var             reduce using rule 32 (operadores -> var = nr rec .)
+    CALL            reduce using rule 32 (operadores -> var = nr rec .)
+    $end            reduce using rule 32 (operadores -> var = nr rec .)
+    END             reduce using rule 32 (operadores -> var = nr rec .)
 
 
 state 77
 
-    (41) rec -> ; .
+    (40) rec -> ; .
 
-    LOAD            reduce using rule 41 (rec -> ; .)
-    DISCARD         reduce using rule 41 (rec -> ; .)
-    SHOW            reduce using rule 41 (rec -> ; .)
-    SAVE            reduce using rule 41 (rec -> ; .)
-    SELECT          reduce using rule 41 (rec -> ; .)
-    CREATE          reduce using rule 41 (rec -> ; .)
-    PROCEDURE       reduce using rule 41 (rec -> ; .)
-    var             reduce using rule 41 (rec -> ; .)
-    CALL            reduce using rule 41 (rec -> ; .)
-    $end            reduce using rule 41 (rec -> ; .)
-    END             reduce using rule 41 (rec -> ; .)
+    LOAD            reduce using rule 40 (rec -> ; .)
+    DISCARD         reduce using rule 40 (rec -> ; .)
+    SHOW            reduce using rule 40 (rec -> ; .)
+    SAVE            reduce using rule 40 (rec -> ; .)
+    SELECT          reduce using rule 40 (rec -> ; .)
+    CREATE          reduce using rule 40 (rec -> ; .)
+    PROCEDURE       reduce using rule 40 (rec -> ; .)
+    var             reduce using rule 40 (rec -> ; .)
+    CALL            reduce using rule 40 (rec -> ; .)
+    $end            reduce using rule 40 (rec -> ; .)
+    END             reduce using rule 40 (rec -> ; .)
 
 
 state 78
 
-    (42) rec -> AND . operadores
-    (33) operadores -> . var = nr rec
-    (34) operadores -> . var = string rec
-    (35) operadores -> . var < > nr rec
-    (36) operadores -> . var < > string rec
-    (37) operadores -> . var < nr rec
-    (38) operadores -> . var > nr rec
-    (39) operadores -> . var < = nr rec
-    (40) operadores -> . var > = nr rec
+    (41) rec -> AND . operadores
+    (32) operadores -> . var = nr rec
+    (33) operadores -> . var = string rec
+    (34) operadores -> . var < > nr rec
+    (35) operadores -> . var < > string rec
+    (36) operadores -> . var < nr rec
+    (37) operadores -> . var > nr rec
+    (38) operadores -> . var < = nr rec
+    (39) operadores -> . var > = nr rec
 
     var             shift and go to state 59
 
@@ -1236,44 +1232,44 @@ state 78
 
 state 79
 
-    (43) rec -> limit .
+    (42) rec -> limit .
 
-    LOAD            reduce using rule 43 (rec -> limit .)
-    DISCARD         reduce using rule 43 (rec -> limit .)
-    SHOW            reduce using rule 43 (rec -> limit .)
-    SAVE            reduce using rule 43 (rec -> limit .)
-    SELECT          reduce using rule 43 (rec -> limit .)
-    CREATE          reduce using rule 43 (rec -> limit .)
-    PROCEDURE       reduce using rule 43 (rec -> limit .)
-    var             reduce using rule 43 (rec -> limit .)
-    CALL            reduce using rule 43 (rec -> limit .)
-    $end            reduce using rule 43 (rec -> limit .)
-    END             reduce using rule 43 (rec -> limit .)
+    LOAD            reduce using rule 42 (rec -> limit .)
+    DISCARD         reduce using rule 42 (rec -> limit .)
+    SHOW            reduce using rule 42 (rec -> limit .)
+    SAVE            reduce using rule 42 (rec -> limit .)
+    SELECT          reduce using rule 42 (rec -> limit .)
+    CREATE          reduce using rule 42 (rec -> limit .)
+    PROCEDURE       reduce using rule 42 (rec -> limit .)
+    var             reduce using rule 42 (rec -> limit .)
+    CALL            reduce using rule 42 (rec -> limit .)
+    $end            reduce using rule 42 (rec -> limit .)
+    END             reduce using rule 42 (rec -> limit .)
 
 
 state 80
 
-    (34) operadores -> var = string rec .
+    (33) operadores -> var = string rec .
 
-    LOAD            reduce using rule 34 (operadores -> var = string rec .)
-    DISCARD         reduce using rule 34 (operadores -> var = string rec .)
-    SHOW            reduce using rule 34 (operadores -> var = string rec .)
-    SAVE            reduce using rule 34 (operadores -> var = string rec .)
-    SELECT          reduce using rule 34 (operadores -> var = string rec .)
-    CREATE          reduce using rule 34 (operadores -> var = string rec .)
-    PROCEDURE       reduce using rule 34 (operadores -> var = string rec .)
-    var             reduce using rule 34 (operadores -> var = string rec .)
-    CALL            reduce using rule 34 (operadores -> var = string rec .)
-    $end            reduce using rule 34 (operadores -> var = string rec .)
-    END             reduce using rule 34 (operadores -> var = string rec .)
+    LOAD            reduce using rule 33 (operadores -> var = string rec .)
+    DISCARD         reduce using rule 33 (operadores -> var = string rec .)
+    SHOW            reduce using rule 33 (operadores -> var = string rec .)
+    SAVE            reduce using rule 33 (operadores -> var = string rec .)
+    SELECT          reduce using rule 33 (operadores -> var = string rec .)
+    CREATE          reduce using rule 33 (operadores -> var = string rec .)
+    PROCEDURE       reduce using rule 33 (operadores -> var = string rec .)
+    var             reduce using rule 33 (operadores -> var = string rec .)
+    CALL            reduce using rule 33 (operadores -> var = string rec .)
+    $end            reduce using rule 33 (operadores -> var = string rec .)
+    END             reduce using rule 33 (operadores -> var = string rec .)
 
 
 state 81
 
-    (35) operadores -> var < > nr . rec
-    (41) rec -> . ;
-    (42) rec -> . AND operadores
-    (43) rec -> . limit
+    (34) operadores -> var < > nr . rec
+    (40) rec -> . ;
+    (41) rec -> . AND operadores
+    (42) rec -> . limit
     (28) limit -> . LIMIT nr ;
 
     ;               shift and go to state 77
@@ -1285,10 +1281,10 @@ state 81
 
 state 82
 
-    (36) operadores -> var < > string . rec
-    (41) rec -> . ;
-    (42) rec -> . AND operadores
-    (43) rec -> . limit
+    (35) operadores -> var < > string . rec
+    (40) rec -> . ;
+    (41) rec -> . AND operadores
+    (42) rec -> . limit
     (28) limit -> . LIMIT nr ;
 
     ;               shift and go to state 77
@@ -1300,27 +1296,27 @@ state 82
 
 state 83
 
-    (37) operadores -> var < nr rec .
+    (36) operadores -> var < nr rec .
 
-    LOAD            reduce using rule 37 (operadores -> var < nr rec .)
-    DISCARD         reduce using rule 37 (operadores -> var < nr rec .)
-    SHOW            reduce using rule 37 (operadores -> var < nr rec .)
-    SAVE            reduce using rule 37 (operadores -> var < nr rec .)
-    SELECT          reduce using rule 37 (operadores -> var < nr rec .)
-    CREATE          reduce using rule 37 (operadores -> var < nr rec .)
-    PROCEDURE       reduce using rule 37 (operadores -> var < nr rec .)
-    var             reduce using rule 37 (operadores -> var < nr rec .)
-    CALL            reduce using rule 37 (operadores -> var < nr rec .)
-    $end            reduce using rule 37 (operadores -> var < nr rec .)
-    END             reduce using rule 37 (operadores -> var < nr rec .)
+    LOAD            reduce using rule 36 (operadores -> var < nr rec .)
+    DISCARD         reduce using rule 36 (operadores -> var < nr rec .)
+    SHOW            reduce using rule 36 (operadores -> var < nr rec .)
+    SAVE            reduce using rule 36 (operadores -> var < nr rec .)
+    SELECT          reduce using rule 36 (operadores -> var < nr rec .)
+    CREATE          reduce using rule 36 (operadores -> var < nr rec .)
+    PROCEDURE       reduce using rule 36 (operadores -> var < nr rec .)
+    var             reduce using rule 36 (operadores -> var < nr rec .)
+    CALL            reduce using rule 36 (operadores -> var < nr rec .)
+    $end            reduce using rule 36 (operadores -> var < nr rec .)
+    END             reduce using rule 36 (operadores -> var < nr rec .)
 
 
 state 84
 
-    (39) operadores -> var < = nr . rec
-    (41) rec -> . ;
-    (42) rec -> . AND operadores
-    (43) rec -> . limit
+    (38) operadores -> var < = nr . rec
+    (40) rec -> . ;
+    (41) rec -> . AND operadores
+    (42) rec -> . limit
     (28) limit -> . LIMIT nr ;
 
     ;               shift and go to state 77
@@ -1332,27 +1328,27 @@ state 84
 
 state 85
 
-    (38) operadores -> var > nr rec .
+    (37) operadores -> var > nr rec .
 
-    LOAD            reduce using rule 38 (operadores -> var > nr rec .)
-    DISCARD         reduce using rule 38 (operadores -> var > nr rec .)
-    SHOW            reduce using rule 38 (operadores -> var > nr rec .)
-    SAVE            reduce using rule 38 (operadores -> var > nr rec .)
-    SELECT          reduce using rule 38 (operadores -> var > nr rec .)
-    CREATE          reduce using rule 38 (operadores -> var > nr rec .)
-    PROCEDURE       reduce using rule 38 (operadores -> var > nr rec .)
-    var             reduce using rule 38 (operadores -> var > nr rec .)
-    CALL            reduce using rule 38 (operadores -> var > nr rec .)
-    $end            reduce using rule 38 (operadores -> var > nr rec .)
-    END             reduce using rule 38 (operadores -> var > nr rec .)
+    LOAD            reduce using rule 37 (operadores -> var > nr rec .)
+    DISCARD         reduce using rule 37 (operadores -> var > nr rec .)
+    SHOW            reduce using rule 37 (operadores -> var > nr rec .)
+    SAVE            reduce using rule 37 (operadores -> var > nr rec .)
+    SELECT          reduce using rule 37 (operadores -> var > nr rec .)
+    CREATE          reduce using rule 37 (operadores -> var > nr rec .)
+    PROCEDURE       reduce using rule 37 (operadores -> var > nr rec .)
+    var             reduce using rule 37 (operadores -> var > nr rec .)
+    CALL            reduce using rule 37 (operadores -> var > nr rec .)
+    $end            reduce using rule 37 (operadores -> var > nr rec .)
+    END             reduce using rule 37 (operadores -> var > nr rec .)
 
 
 state 86
 
-    (40) operadores -> var > = nr . rec
-    (41) rec -> . ;
-    (42) rec -> . AND operadores
-    (43) rec -> . limit
+    (39) operadores -> var > = nr . rec
+    (40) rec -> . ;
+    (41) rec -> . AND operadores
+    (42) rec -> . limit
     (28) limit -> . LIMIT nr ;
 
     ;               shift and go to state 77
@@ -1364,164 +1360,116 @@ state 86
 
 state 87
 
-    (30) using -> USING ( var . = nr ) ;
-    (31) using -> USING ( var . = string ) ;
+    (30) using -> USING ( var . ) ;
 
-    =               shift and go to state 93
+    )               shift and go to state 93
 
 
 state 88
 
-    (42) rec -> AND operadores .
+    (41) rec -> AND operadores .
 
-    LOAD            reduce using rule 42 (rec -> AND operadores .)
-    DISCARD         reduce using rule 42 (rec -> AND operadores .)
-    SHOW            reduce using rule 42 (rec -> AND operadores .)
-    SAVE            reduce using rule 42 (rec -> AND operadores .)
-    SELECT          reduce using rule 42 (rec -> AND operadores .)
-    CREATE          reduce using rule 42 (rec -> AND operadores .)
-    PROCEDURE       reduce using rule 42 (rec -> AND operadores .)
-    var             reduce using rule 42 (rec -> AND operadores .)
-    CALL            reduce using rule 42 (rec -> AND operadores .)
-    $end            reduce using rule 42 (rec -> AND operadores .)
-    END             reduce using rule 42 (rec -> AND operadores .)
+    LOAD            reduce using rule 41 (rec -> AND operadores .)
+    DISCARD         reduce using rule 41 (rec -> AND operadores .)
+    SHOW            reduce using rule 41 (rec -> AND operadores .)
+    SAVE            reduce using rule 41 (rec -> AND operadores .)
+    SELECT          reduce using rule 41 (rec -> AND operadores .)
+    CREATE          reduce using rule 41 (rec -> AND operadores .)
+    PROCEDURE       reduce using rule 41 (rec -> AND operadores .)
+    var             reduce using rule 41 (rec -> AND operadores .)
+    CALL            reduce using rule 41 (rec -> AND operadores .)
+    $end            reduce using rule 41 (rec -> AND operadores .)
+    END             reduce using rule 41 (rec -> AND operadores .)
 
 
 state 89
 
-    (35) operadores -> var < > nr rec .
+    (34) operadores -> var < > nr rec .
 
-    LOAD            reduce using rule 35 (operadores -> var < > nr rec .)
-    DISCARD         reduce using rule 35 (operadores -> var < > nr rec .)
-    SHOW            reduce using rule 35 (operadores -> var < > nr rec .)
-    SAVE            reduce using rule 35 (operadores -> var < > nr rec .)
-    SELECT          reduce using rule 35 (operadores -> var < > nr rec .)
-    CREATE          reduce using rule 35 (operadores -> var < > nr rec .)
-    PROCEDURE       reduce using rule 35 (operadores -> var < > nr rec .)
-    var             reduce using rule 35 (operadores -> var < > nr rec .)
-    CALL            reduce using rule 35 (operadores -> var < > nr rec .)
-    $end            reduce using rule 35 (operadores -> var < > nr rec .)
-    END             reduce using rule 35 (operadores -> var < > nr rec .)
+    LOAD            reduce using rule 34 (operadores -> var < > nr rec .)
+    DISCARD         reduce using rule 34 (operadores -> var < > nr rec .)
+    SHOW            reduce using rule 34 (operadores -> var < > nr rec .)
+    SAVE            reduce using rule 34 (operadores -> var < > nr rec .)
+    SELECT          reduce using rule 34 (operadores -> var < > nr rec .)
+    CREATE          reduce using rule 34 (operadores -> var < > nr rec .)
+    PROCEDURE       reduce using rule 34 (operadores -> var < > nr rec .)
+    var             reduce using rule 34 (operadores -> var < > nr rec .)
+    CALL            reduce using rule 34 (operadores -> var < > nr rec .)
+    $end            reduce using rule 34 (operadores -> var < > nr rec .)
+    END             reduce using rule 34 (operadores -> var < > nr rec .)
 
 
 state 90
 
-    (36) operadores -> var < > string rec .
+    (35) operadores -> var < > string rec .
 
-    LOAD            reduce using rule 36 (operadores -> var < > string rec .)
-    DISCARD         reduce using rule 36 (operadores -> var < > string rec .)
-    SHOW            reduce using rule 36 (operadores -> var < > string rec .)
-    SAVE            reduce using rule 36 (operadores -> var < > string rec .)
-    SELECT          reduce using rule 36 (operadores -> var < > string rec .)
-    CREATE          reduce using rule 36 (operadores -> var < > string rec .)
-    PROCEDURE       reduce using rule 36 (operadores -> var < > string rec .)
-    var             reduce using rule 36 (operadores -> var < > string rec .)
-    CALL            reduce using rule 36 (operadores -> var < > string rec .)
-    $end            reduce using rule 36 (operadores -> var < > string rec .)
-    END             reduce using rule 36 (operadores -> var < > string rec .)
+    LOAD            reduce using rule 35 (operadores -> var < > string rec .)
+    DISCARD         reduce using rule 35 (operadores -> var < > string rec .)
+    SHOW            reduce using rule 35 (operadores -> var < > string rec .)
+    SAVE            reduce using rule 35 (operadores -> var < > string rec .)
+    SELECT          reduce using rule 35 (operadores -> var < > string rec .)
+    CREATE          reduce using rule 35 (operadores -> var < > string rec .)
+    PROCEDURE       reduce using rule 35 (operadores -> var < > string rec .)
+    var             reduce using rule 35 (operadores -> var < > string rec .)
+    CALL            reduce using rule 35 (operadores -> var < > string rec .)
+    $end            reduce using rule 35 (operadores -> var < > string rec .)
+    END             reduce using rule 35 (operadores -> var < > string rec .)
 
 
 state 91
 
-    (39) operadores -> var < = nr rec .
+    (38) operadores -> var < = nr rec .
 
-    LOAD            reduce using rule 39 (operadores -> var < = nr rec .)
-    DISCARD         reduce using rule 39 (operadores -> var < = nr rec .)
-    SHOW            reduce using rule 39 (operadores -> var < = nr rec .)
-    SAVE            reduce using rule 39 (operadores -> var < = nr rec .)
-    SELECT          reduce using rule 39 (operadores -> var < = nr rec .)
-    CREATE          reduce using rule 39 (operadores -> var < = nr rec .)
-    PROCEDURE       reduce using rule 39 (operadores -> var < = nr rec .)
-    var             reduce using rule 39 (operadores -> var < = nr rec .)
-    CALL            reduce using rule 39 (operadores -> var < = nr rec .)
-    $end            reduce using rule 39 (operadores -> var < = nr rec .)
-    END             reduce using rule 39 (operadores -> var < = nr rec .)
+    LOAD            reduce using rule 38 (operadores -> var < = nr rec .)
+    DISCARD         reduce using rule 38 (operadores -> var < = nr rec .)
+    SHOW            reduce using rule 38 (operadores -> var < = nr rec .)
+    SAVE            reduce using rule 38 (operadores -> var < = nr rec .)
+    SELECT          reduce using rule 38 (operadores -> var < = nr rec .)
+    CREATE          reduce using rule 38 (operadores -> var < = nr rec .)
+    PROCEDURE       reduce using rule 38 (operadores -> var < = nr rec .)
+    var             reduce using rule 38 (operadores -> var < = nr rec .)
+    CALL            reduce using rule 38 (operadores -> var < = nr rec .)
+    $end            reduce using rule 38 (operadores -> var < = nr rec .)
+    END             reduce using rule 38 (operadores -> var < = nr rec .)
 
 
 state 92
 
-    (40) operadores -> var > = nr rec .
+    (39) operadores -> var > = nr rec .
 
-    LOAD            reduce using rule 40 (operadores -> var > = nr rec .)
-    DISCARD         reduce using rule 40 (operadores -> var > = nr rec .)
-    SHOW            reduce using rule 40 (operadores -> var > = nr rec .)
-    SAVE            reduce using rule 40 (operadores -> var > = nr rec .)
-    SELECT          reduce using rule 40 (operadores -> var > = nr rec .)
-    CREATE          reduce using rule 40 (operadores -> var > = nr rec .)
-    PROCEDURE       reduce using rule 40 (operadores -> var > = nr rec .)
-    var             reduce using rule 40 (operadores -> var > = nr rec .)
-    CALL            reduce using rule 40 (operadores -> var > = nr rec .)
-    $end            reduce using rule 40 (operadores -> var > = nr rec .)
-    END             reduce using rule 40 (operadores -> var > = nr rec .)
+    LOAD            reduce using rule 39 (operadores -> var > = nr rec .)
+    DISCARD         reduce using rule 39 (operadores -> var > = nr rec .)
+    SHOW            reduce using rule 39 (operadores -> var > = nr rec .)
+    SAVE            reduce using rule 39 (operadores -> var > = nr rec .)
+    SELECT          reduce using rule 39 (operadores -> var > = nr rec .)
+    CREATE          reduce using rule 39 (operadores -> var > = nr rec .)
+    PROCEDURE       reduce using rule 39 (operadores -> var > = nr rec .)
+    var             reduce using rule 39 (operadores -> var > = nr rec .)
+    CALL            reduce using rule 39 (operadores -> var > = nr rec .)
+    $end            reduce using rule 39 (operadores -> var > = nr rec .)
+    END             reduce using rule 39 (operadores -> var > = nr rec .)
 
 
 state 93
 
-    (30) using -> USING ( var = . nr ) ;
-    (31) using -> USING ( var = . string ) ;
+    (30) using -> USING ( var ) . ;
 
-    nr              shift and go to state 94
-    string          shift and go to state 95
+    ;               shift and go to state 94
 
 
 state 94
 
-    (30) using -> USING ( var = nr . ) ;
+    (30) using -> USING ( var ) ; .
 
-    )               shift and go to state 96
-
-
-state 95
-
-    (31) using -> USING ( var = string . ) ;
-
-    )               shift and go to state 97
-
-
-state 96
-
-    (30) using -> USING ( var = nr ) . ;
-
-    ;               shift and go to state 98
-
-
-state 97
-
-    (31) using -> USING ( var = string ) . ;
-
-    ;               shift and go to state 99
-
-
-state 98
-
-    (30) using -> USING ( var = nr ) ; .
-
-    LOAD            reduce using rule 30 (using -> USING ( var = nr ) ; .)
-    DISCARD         reduce using rule 30 (using -> USING ( var = nr ) ; .)
-    SHOW            reduce using rule 30 (using -> USING ( var = nr ) ; .)
-    SAVE            reduce using rule 30 (using -> USING ( var = nr ) ; .)
-    SELECT          reduce using rule 30 (using -> USING ( var = nr ) ; .)
-    CREATE          reduce using rule 30 (using -> USING ( var = nr ) ; .)
-    PROCEDURE       reduce using rule 30 (using -> USING ( var = nr ) ; .)
-    var             reduce using rule 30 (using -> USING ( var = nr ) ; .)
-    CALL            reduce using rule 30 (using -> USING ( var = nr ) ; .)
-    $end            reduce using rule 30 (using -> USING ( var = nr ) ; .)
-    END             reduce using rule 30 (using -> USING ( var = nr ) ; .)
-
-
-state 99
-
-    (31) using -> USING ( var = string ) ; .
-
-    LOAD            reduce using rule 31 (using -> USING ( var = string ) ; .)
-    DISCARD         reduce using rule 31 (using -> USING ( var = string ) ; .)
-    SHOW            reduce using rule 31 (using -> USING ( var = string ) ; .)
-    SAVE            reduce using rule 31 (using -> USING ( var = string ) ; .)
-    SELECT          reduce using rule 31 (using -> USING ( var = string ) ; .)
-    CREATE          reduce using rule 31 (using -> USING ( var = string ) ; .)
-    PROCEDURE       reduce using rule 31 (using -> USING ( var = string ) ; .)
-    var             reduce using rule 31 (using -> USING ( var = string ) ; .)
-    CALL            reduce using rule 31 (using -> USING ( var = string ) ; .)
-    $end            reduce using rule 31 (using -> USING ( var = string ) ; .)
-    END             reduce using rule 31 (using -> USING ( var = string ) ; .)
+    LOAD            reduce using rule 30 (using -> USING ( var ) ; .)
+    DISCARD         reduce using rule 30 (using -> USING ( var ) ; .)
+    SHOW            reduce using rule 30 (using -> USING ( var ) ; .)
+    SAVE            reduce using rule 30 (using -> USING ( var ) ; .)
+    SELECT          reduce using rule 30 (using -> USING ( var ) ; .)
+    CREATE          reduce using rule 30 (using -> USING ( var ) ; .)
+    PROCEDURE       reduce using rule 30 (using -> USING ( var ) ; .)
+    var             reduce using rule 30 (using -> USING ( var ) ; .)
+    CALL            reduce using rule 30 (using -> USING ( var ) ; .)
+    $end            reduce using rule 30 (using -> USING ( var ) ; .)
+    END             reduce using rule 30 (using -> USING ( var ) ; .)
 

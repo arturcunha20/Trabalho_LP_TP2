@@ -94,12 +94,11 @@ class LogicGrammar:
 
     def p_join(self,p):
         """ join : JOIN var using"""
-        p[0] = {'var': p[2], 'args': [p[1],p[3]]}
+        p[0] = {'var': p[2], 'args': p[1] , 'fim':p[3]}
 
     def p_using(self,p):
-        """ using : USING '(' var '=' nr ')' ';'
-                  | USING '(' var '=' string ')' ';' """
-        p[0] = {'var': [p[3],p[5]], 'args': p[1], 'op': p[4], 'fim':p[7] , 'paren': [p[2],p[6]]}
+        """ using : USING '(' var ')' ';' """
+        p[0] = {'var': p[3], 'args': p[1], 'fim':p[5] , 'paren': [p[2],p[4]]}
 
     def p_where(self,p):
         """ where :  WHERE operadores """

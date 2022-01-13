@@ -15,7 +15,9 @@ class LogicEval:
         'LOAD': lambda args: LogicEval.loadTable(args),
         'SHOW': lambda args: LogicEval.showTable(args),
         'SELECT': lambda args: LogicEval.selectTable(args),
+        'CREATE': lambda args: LogicEval.createtable(args)
     }
+
     @staticmethod
     def evaluate(args):
         if type(args) is list:
@@ -74,6 +76,36 @@ class LogicEval:
            print("Tabela nao existe")
         return "DISCARD " + nomeTable
 
+
+    @staticmethod
+    def createtable(args):
+        nomeTable = args['var']['var']
+        tipo = verificarTipo(args)
+
+        if tipo == 1:
+            campos = args['var']['fim']['var']['var']['var']
+            nomeTableWhere = args['var']['fim']['var']['var']['args']['var']
+            op = args['var']['fim']['var']['var']['args']['fim']['args']['op']
+            campo = args['var']['fim']['var']['var']['args']['fim']['args']['campo']
+            hehe = args['var']['fim']['var']['var']['args']['fim']['args']['var']
+
+            if nomeTableWhere in LogicEval.BaseDeDados:
+                if 'str' in hehe:
+                    aa = CreateTableWhere(op, hehe['str'], LogicEval.BaseDeDados[nomeTableWhere], campo,campos)
+                if 'nr' in hehe:
+                    aa = CreateTableWhere(op, hehe['nr'], LogicEval.BaseDeDados[nomeTableWhere], campo,campos)
+                LogicEval.BaseDeDados[nomeTable] = aa
+            else:
+                print("Tabela ", nomeTableWhere, " nao existe")
+
+        if tipo == 2:
+            nomeTableJoinFrom = args['var']['fim']['var']
+            nomeTableJOIN = args['var']['fim']['fim']['var']
+            campo = args['var']['fim']['fim']['fim']['var']
+            print("JOIN -> ",campo,"|", nomeTableJoinFrom," | ",nomeTableJOIN)
+
+        return "CREATE"
+
     @staticmethod
     def selectTable(args):
         campos = args['var']['var']
@@ -124,6 +156,51 @@ class LogicEval:
                             print(tableFinal)
         else:
            print("Tabela nao existe")
+
+
+
+def verificarTipo(args):
+    if 'fim' in args['var']['fim']:
+        return 2
+    elif 'var' in args['var']['fim']:
+        return 1
+
+def CreateTableWhere(op,qt,table,campo,campoLimit):
+    if op == '=':
+        isTRUE = table[campo] == qt
+        aa = table[isTRUE]
+        bb = print_limit(campoLimit,aa)
+        return bb
+
+    if op == ">":
+        isTRUE = table[campo] > qt
+        aa = table[isTRUE]
+        bb = print_limit(campoLimit, aa)
+        return bb
+
+    if op == "<":
+        isTRUE = table[campo] < qt
+        aa = table[isTRUE]
+        bb = print_limit(campoLimit, aa)
+        return bb
+
+    if op == ['<', '>']:
+        isTRUE = table[campo] != qt
+        aa = table[isTRUE]
+        bb = print_limit(campoLimit, aa)
+        return bb
+
+    if op == ['<', '=']:
+        isTRUE = table[campo] <= qt
+        aa = table[isTRUE]
+        bb = print_limit(campoLimit, aa)
+        return bb
+
+    if op == ['>', '=']:
+        isTRUE = table[campo] >= qt
+        aa = table[isTRUE]
+        bb = print_limit(campoLimit, aa)
+        return bb
 
 
 def tableAndOperacoes(args,table):

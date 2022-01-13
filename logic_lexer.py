@@ -10,7 +10,7 @@ class LogicLexer:
         self.lexer = None
 
     def build(self, **kwargs):
-        self.lexer = plex.lex(module=self, **kwargs)
+            self.lexer = plex.lex(module=self, **kwargs)
 
     def input(self, string):
         self.lexer.input(string)
