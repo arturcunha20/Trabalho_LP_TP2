@@ -44,6 +44,7 @@ class LogicEval:
     @staticmethod
     def showTable(args):
         nomeTable = args['var']['var']
+
         if nomeTable in LogicEval.BaseDeDados:
             print(LogicEval.BaseDeDados[nomeTable])
         else:
