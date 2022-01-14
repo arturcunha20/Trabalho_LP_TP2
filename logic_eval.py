@@ -96,13 +96,29 @@ class LogicEval:
                     aa = CreateTableWhere(op, hehe['nr'], LogicEval.BaseDeDados[nomeTableWhere], campo,campos)
                 LogicEval.BaseDeDados[nomeTable] = aa
             else:
-                print("Tabela ", nomeTableWhere, " nao existe")
+                print("Tabela nao existe")
 
         if tipo == 2:
             nomeTableJoinFrom = args['var']['fim']['var']
             nomeTableJOIN = args['var']['fim']['fim']['var']
             campo = args['var']['fim']['fim']['fim']['var']
+
+            if nomeTableJoinFrom in LogicEval.BaseDeDados:
+                if nomeTableJOIN in LogicEval.BaseDeDados:
+                    ffJoinFrom = pd.DataFrame(LogicEval.BaseDeDados[nomeTableJoinFrom])
+                    ffJoin = pd.DataFrame(LogicEval.BaseDeDados[nomeTableJOIN])
+
+
+                    tableCompleta = ffJoinFrom.merge(ffJoin, on=campo, how='right')
+                    print(tableCompleta)
+                else:
+                    print("Tabela nao existe")
+            else:
+                print("Tabela nao existe")
+
             print("JOIN -> ",campo,"|", nomeTableJoinFrom," | ",nomeTableJOIN)
+
+
 
         return "CREATE"
 
@@ -201,7 +217,6 @@ def CreateTableWhere(op,qt,table,campo,campoLimit):
         aa = table[isTRUE]
         bb = print_limit(campoLimit, aa)
         return bb
-
 
 def tableAndOperacoes(args,table):
     op = args['args']['op']
