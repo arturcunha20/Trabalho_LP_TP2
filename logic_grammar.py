@@ -133,7 +133,7 @@ class LogicGrammar:
 
     def p_procedimentos00(self, p):
         """ procedimentos : PROCEDURE var DO list_com END """
-        p[0] = {'var': p[2], 'list': p[4], 'args': [p[1], p[3], p[5]]}
+        p[0] = {'command':p[1],'var': p[2], 'list': p[4], 'args': [p[3], p[5]]}
 
     def p_procedimentos01(self, p):
         """ list_com : comands """

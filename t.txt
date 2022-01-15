@@ -1,4 +1,4 @@
-LOAD TABLE produtos FROM "produtos.csv";
 LOAD TABLE vendas FROM "vendas.csv";
+LOAD TABLE produtos FROM "produtos.csv";
 
-CREATE TABLE tudo FROM produtos JOIN vendas  USING(ID);
+SELECT * FROM produtos WHERE Preco < 1.5 AND Preco >1.2 LIMIT 4;

@@ -5,8 +5,8 @@ import pandas as pd
 pp = PrettyPrinter()
 
 class LogicEval:
-    symbols = {}
     BaseDeDados = {}
+    procedimentos = {}
 
     # Design Pattern: Dispatch Table
     operators = {
@@ -15,7 +15,9 @@ class LogicEval:
         'LOAD': lambda args: LogicEval.loadTable(args),
         'SHOW': lambda args: LogicEval.showTable(args),
         'SELECT': lambda args: LogicEval.selectTable(args),
-        'CREATE': lambda args: LogicEval.createtable(args)
+        'CREATE': lambda args: LogicEval.createtable(args),
+        'PROCEDURE': lambda args: LogicEval.proceduretable(args),
+        'CALL': lambda args: LogicEval.calltable(args)
     }
 
     @staticmethod
@@ -24,11 +26,16 @@ class LogicEval:
             ans = None
             for a in args:
                 ans = LogicEval.evaluate(a)
-                return ans
+            return ans
 
-        if args['args'] in LogicEval.operators:
-            f = LogicEval.operators[args['args']]
-            return f(args)
+        if 'command' in args:
+            if args['command'] in LogicEval.operators:
+                f = LogicEval.operators[args['command']]
+                return f(args)
+        else:
+            if args['args'] in LogicEval.operators:
+                f = LogicEval.operators[args['args']]
+                return f(args)
 
     @staticmethod
     def loadTable(args):
@@ -39,7 +46,7 @@ class LogicEval:
             LogicEval.BaseDeDados[nomeTable] = pd.read_csv(nomeFicheiro)
             float_transform(nomeTable)
         else:
-            return "Tabela ja existe"
+            print("Tabela ja existe")
 
         return "LOAD " + nomeTable
 
@@ -74,8 +81,30 @@ class LogicEval:
             LogicEval.BaseDeDados.pop(nomeTable)
         else:
            print("Tabela nao existe")
+
         return "DISCARD " + nomeTable
 
+    @staticmethod
+    def calltable(args):
+        nomeTable = args['var']
+
+        if nomeTable in LogicEval.procedimentos:
+            for x in LogicEval.procedimentos[nomeTable]:
+                LogicEval.evaluate(x)
+        else:
+            print("Este procedimento nao existe")
+        return "CALL" + nomeTable
+
+    @staticmethod
+    def proceduretable(args):
+        lista = args['list']
+        nomeTable = args['var']
+
+        if nomeTable not in LogicEval.procedimentos:
+            LogicEval.procedimentos[nomeTable] = lista
+        else:
+            print("Procedimento ja existe")
+        return "PROCEDURE"
 
     @staticmethod
     def createtable(args):
@@ -108,18 +137,13 @@ class LogicEval:
                     ffJoinFrom = pd.DataFrame(LogicEval.BaseDeDados[nomeTableJoinFrom])
                     ffJoin = pd.DataFrame(LogicEval.BaseDeDados[nomeTableJOIN])
 
-
                     tableCompleta = ffJoinFrom.merge(ffJoin, on=campo, how='right')
-                    print(tableCompleta)
+
+                    LogicEval.BaseDeDados[nomeTable] = tableCompleta
                 else:
                     print("Tabela nao existe")
             else:
                 print("Tabela nao existe")
-
-            print("JOIN -> ",campo,"|", nomeTableJoinFrom," | ",nomeTableJOIN)
-
-
-
         return "CREATE"
 
     @staticmethod
@@ -148,12 +172,12 @@ class LogicEval:
                     hehe = verificarANDWhere(args)
                     if hehe == True:
                         esp = args['var']['args']['fim']['args']['args']
-                        ola = verificarAND(esp)
+                        verificaAND = verificarAND(esp)
                         tableFinal = tableAndOperacoes(esp,tableFinal)
                         if esp['args']['args'] == ';':
-                            print("ACABOU")
+                            pass
                         else:
-                            while (ola == True):
+                            while (verificaAND == True):
                                 if esp['args']['args']['args'] == "LIMIT":
                                     limit_print_and(tableFinal,esp['args']['args']['var']['nr'])
                                     existe_limit = 1
@@ -172,8 +196,6 @@ class LogicEval:
                             print(tableFinal)
         else:
            print("Tabela nao existe")
-
-
 
 def verificarTipo(args):
     if 'fim' in args['var']['fim']:
@@ -332,8 +354,11 @@ def verificarANDESP(args):
         return False
 
 def verificarANDWhere(args):
-    if args['var']['args']['fim']['args']['args']['op'] == "AND":
-        return True
+    if 'op' in args['var']['args']['fim']['args']['args']:
+        if args['var']['args']['fim']['args']['args']['op'] == "AND":
+            return True
+        else:
+            return False
 
 def verificarAND(args):
     if args['op'] == "AND":
