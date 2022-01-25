@@ -137,7 +137,7 @@ class LogicEval:
                     ffJoinFrom = pd.DataFrame(LogicEval.BaseDeDados[nomeTableJoinFrom])
                     ffJoin = pd.DataFrame(LogicEval.BaseDeDados[nomeTableJOIN])
 
-                    tableCompleta = ffJoinFrom.merge(ffJoin, on=campo, how='right')
+                    tableCompleta = ffJoinFrom.merge(ffJoin, on=campo)
 
                     LogicEval.BaseDeDados[nomeTable] = tableCompleta
                 else:
@@ -377,6 +377,7 @@ def verificarLIMIT(args):
         return False
 
 def select_prints(campos, nomeTable):
+    print(campos)
     tabela = pd.DataFrame(LogicEval.BaseDeDados[nomeTable])
     if campos == '*':
         print(LogicEval.BaseDeDados[nomeTable])

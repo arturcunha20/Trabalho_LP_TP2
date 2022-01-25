@@ -54,7 +54,7 @@ class LogicGrammar:
 
     def p_select(self,p):
         """ select : '*' from
-                   | a_list from"""
+                   | a_list from """
 
         p[0] = {'var': p[1], 'args': p[2]}
 
